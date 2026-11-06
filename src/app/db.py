@@ -13,7 +13,7 @@ from sqlalchemy.sql import func
 
 from databases import Database
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
 
 # SQLAlchemy
 engine = create_engine(DATABASE_URL)
@@ -25,6 +25,16 @@ notes = Table(
     Column("title", String(50)),
     Column("description", String(50)),
     Column("created_date", DateTime, default=func.now(), nullable=False),
+)
+
+events = Table(
+    "events",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("title", String(80)),
+    Column("city", String(50)),
+    Column("price_usd", Integer),
+    Column("seats_left", Integer),
 )
 
 # databases query builder
